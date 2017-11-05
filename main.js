@@ -11,7 +11,8 @@ const http = require('http'),
 httpServer.listen(8080);
 
 io.sockets.on('connection', function(socket) {
-	socket.on('username', function requestUsername(data) {
+	socket.on('username', function(data) {
+	    socket.removeAllListeners('username')
         socket.username = data.username;
         acceptedSockets.push(socket);
         socket.on('disconnect', function() {
@@ -21,14 +22,20 @@ io.sockets.on('connection', function(socket) {
                 freeOpponents.splice(freeOpIndx, 1)
             }
         });
-        emit(socket, {name: 'usernameAccepted'});
-        if(freeOpponents.length > 0) {
-            createGame(socket, freeOpponents.pop())
-        } else {
-            freeOpponents.splice(0, 0, socket)
-        }
+        requestNewGame(socket)
 	})
 });
+
+function requestNewGame(socket) {
+    console.log(socket.username)
+    console.log(freeOpponents.map(function(opp){return opp.username}))
+    emit(socket, {name: 'joinLobby'});
+    if (freeOpponents.length > 0) {
+        createGame(socket, freeOpponents.pop())
+    } else {
+        freeOpponents.splice(0, 0, socket)
+    }
+}
 
 function createGame(socketA, socketB) {
 	var game = {
@@ -63,6 +70,9 @@ function createGame(socketA, socketB) {
 
                     setTimeout(function() {
                         game.removeAllListeners('drawing')
+
+                        socketA.on('newGame', function(data) {return requestNewGame(socketA)})
+                        socketB.on('newGame', function(data) {return requestNewGame(socketB)})
                     }, 5000)
                 }, 10000)
             }, 5000)
