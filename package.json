@@ -1,0 +1,22 @@
+{
+  "name": "sketchoff-backend",
+  "version": "1.0.0",
+  "description": "Backend for SketchOff",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nithinp7/sketchoff-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nithinp7/sketchoff-backend/issues"
+  },
+  "homepage": "https://github.com/nithinp7/sketchoff-backend#readme",
+  "dependencies": {
+    "socket.io": "^2.0.4"
+  }
+}
