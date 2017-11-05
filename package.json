@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/nithinp7/sketchoff-backend#readme",
   "dependencies": {
+    "request": "^2.83.0",
     "socket.io": "^2.0.4"
   }
 }
